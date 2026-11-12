@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="English 30">
+<meta name="theme-color" content="#10231a">
+<link rel="apple-touch-icon" id="ic" href="">
+<title>English 30</title>
+<style>
+:root{--bg:#10231a;--c1:#183428;--c2:#21463a;--tx:#e4efe6;--mu:#93b09d;--ac:#8cc98a;--ac2:#5fa377;--bad:#d98a76;--gd:#8cc98a}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;margin:0}
+html,body{background:var(--bg);color:var(--tx);font-family:-apple-system,"SF Pro Rounded",system-ui,sans-serif}
+body{min-height:100dvh;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);background:radial-gradient(120% 60% at 50% 0,#1a3a2b 0,var(--bg) 70%) no-repeat var(--bg)}
+#app{max-width:520px;margin:0 auto;padding:18px 18px 40px}
+.i{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+button{font:inherit;color:inherit;border:0;background:none;touch-action:manipulation;cursor:pointer}
+.hd{display:flex;gap:12px;align-items:center;margin:8px 0 18px}
+.hd .i{width:38px;height:38px;color:var(--ac)}
+h1{font-size:28px;font-weight:800;letter-spacing:-.5px}
+h2{font-size:22px;font-weight:700;margin-bottom:6px}
+p{color:var(--mu);font-size:15px;line-height:1.4}
+.bar{height:10px;background:var(--c1);border-radius:9px;overflow:hidden;margin:6px 0}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--ac2),var(--ac));border-radius:9px;transition:width .6s}
+.big{width:100%;display:flex;align-items:center;gap:12px;text-align:left;background:linear-gradient(135deg,var(--ac2),#3f7f5c);color:#0b1a12;padding:18px;border-radius:22px;margin:16px 0;font-weight:700;font-size:17px;min-height:64px;justify-content:space-between}
+.big b{display:block;font-size:13px;opacity:.75}
+.big span{flex:1}
+.big:active,.r:active,.o:active,.d:active{transform:scale(.97)}
+.big.alt{background:var(--c2);color:var(--tx)}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.d{aspect-ratio:1;border-radius:16px;background:var(--c1);font-weight:700;font-size:17px;display:grid;place-items:center;color:var(--mu)}
+.d.ok{background:var(--c2);color:var(--ac)}.d.cur{outline:2px solid var(--ac);color:var(--tx)}.d:disabled{opacity:.4}
+.d .i{width:20px;height:20px}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.top button,.pill{background:var(--c1);border-radius:14px;height:44px;min-width:44px;display:flex;align-items:center;justify-content:center;gap:6px;padding:0 12px;font-weight:700}
+.pill{margin-left:auto;color:var(--ac)}
+.top .t{font-weight:700;font-size:17px}
+.dots{display:flex;gap:6px;margin-bottom:16px}
+.dots i{flex:1;height:6px;border-radius:6px;background:var(--c1)}.dots i.on{background:var(--ac)}
+.r{position:relative;display:block;width:100%;text-align:left;background:var(--c1);border-radius:18px;padding:14px 60px 14px 16px;margin-bottom:10px;min-height:64px}
+.r .q{font-size:18px;font-weight:700}
+.r .a{font-size:15px;color:var(--mu);margin-top:3px}
+.r .a.hid{filter:blur(7px)}
+.sp{position:absolute;right:10px;top:50%;margin-top:-22px;width:44px;height:44px;border-radius:50%;background:var(--c2);color:var(--ac);display:grid;place-items:center}
+.card{background:var(--c1);border-radius:22px;padding:20px;text-align:center;margin-bottom:14px}
+.play{width:84px;height:84px;border-radius:50%;background:var(--c2);color:var(--ac);display:grid;place-items:center;margin:8px auto 14px}
+.play .i{width:38px;height:38px}
+.o{display:block;width:100%;text-align:left;background:var(--c1);border-radius:16px;padding:16px;margin-bottom:10px;font-size:17px;font-weight:600;min-height:56px}
+.o.good{background:#2c5a3d;color:#d6f5d9}.o.bad{background:#5a3a32;color:#f5ddd6}
+.hint{text-align:center;font-size:14px;margin:6px 0 14px}
+.win{text-align:center;padding-top:40px}
+.win .i{width:84px;height:84px;color:var(--ac);margin-bottom:10px}
+@keyframes pop{0%{transform:scale(.5);opacity:0}70%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+.win .i{animation:pop .6s}
+@media (prefers-reduced-motion:reduce){.win .i{animation:none}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="leaf" viewBox="0 0 24 24"><path d="M5 19C5 9 11 4 20 4c0 9-5 15-15 15zM5 19l8-8"/></symbol>
+<symbol id="spk" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9zM16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></symbol>
+<symbol id="ok" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></symbol>
+<symbol id="nx" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+<symbol id="rp" viewBox="0 0 24 24"><path d="M4 11a8 8 0 0 1 14-4l2 2M20 4v5h-5M20 13a8 8 0 0 1-14 4l-2-2M4 20v-5h5"/></symbol>
+<symbol id="mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></symbol>
+<symbol id="home" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"/></symbol>
+<symbol id="lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+<symbol id="clk" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+</defs></svg>
+<div id="app"></div>
+<script>
+const RAW=`Salomlashish
+Hello!|Salom!
+Good morning.|Xayrli tong.
+Good afternoon.|Xayrli kun.
+How are you?|Ahvolingiz qanday?
+I'm fine, thank you.|Yaxshi, rahmat.
+Nice to meet you.|Tanishganimdan xursandman.
+
+O'zini tanishtirish
+My name is Ali.|Ismim Ali. (o'z ismingni ayt)
+I'm 19 years old.|Men 19 yoshdaman.
+I'm from Uzbekistan.|Men O'zbekistondanman.
+I live in Fergana.|Men Farg'onada yashayman.
+I speak a little English.|Men ozgina inglizcha gapiraman.
+I'm learning English.|Men ingliz tilini o'rganyapman.
+
+Raqamlar
+One, two, three, four, five.|Bir, ikki, uch, to'rt, besh.
+Six, seven, eight, nine, ten.|Olti, yetti, sakkiz, to'qqiz, o'n.
+Twenty, thirty, fifty.|Yigirma, o'ttiz, ellik.
+One hundred.|Yuz.
+How much is it?|Bu qancha?
+It's ten pounds.|Bu o'n funt.
+
+Vaqt va kunlar
+What time is it?|Soat necha?
+It's eight o'clock.|Soat sakkiz.
+Monday, Tuesday, Wednesday.|Dushanba, seshanba, chorshanba.
+Thursday, Friday, Saturday, Sunday.|Payshanba, juma, shanba, yakshanba.
+Today, tomorrow, yesterday.|Bugun, ertaga, kecha.
+See you tomorrow.|Ertagacha ko'rishguncha.
+
+Savollar
+What is your name?|Ismingiz nima?
+Where are you from?|Qayerdansiz?
+Where is the toilet?|Hojatxona qayerda?
+When do we start?|Qachon boshlaymiz?
+Who is my manager?|Menejerim kim?
+Why?|Nega?
+
+Tushunmaganda
+Sorry, I don't understand.|Kechirasiz, tushunmadim.
+Can you repeat, please?|Takrorlab bera olasizmi?
+Please speak slowly.|Iltimos, sekinroq gapiring.
+What does it mean?|Bu nimani anglatadi?
+Can you show me?|Menga ko'rsata olasizmi?
+OK, I understand.|Xo'p, tushundim.
+
+Rahmat va iltimos
+Please.|Iltimos.
+Thank you very much.|Katta rahmat.
+You're welcome.|Arzimaydi.
+Excuse me.|Kechirasiz (e'tibor jalb qilish).
+Sorry, my mistake.|Kechirasiz, mening xatom.
+No problem.|Muammo yo'q.
+
+Issiqxona
+I want to work.|Men ishlashni xohlayman.
+I'm looking for a job.|Men ish qidiryapman.
+greenhouse|issiqxona
+farm|ferma
+It's hot in the greenhouse.|Issiqxonada issiq.
+I like working with plants.|O'simliklar bilan ishlashni yoqtiraman.
+
+Asboblar
+gloves|qo'lqop
+scissors|qaychi
+bucket|chelak
+box|quti
+trolley|aravacha
+Where are the gloves?|Qo'lqoplar qayerda?
+
+O'simliklar
+tomato|pomidor
+cucumber|bodring
+strawberry|qulupnay
+pepper|qalampir
+leaf|barg
+The plants need water.|O'simliklarga suv kerak.
+
+Ish fe'llari
+pick|terib olmoq
+pack|qadoqlamoq
+water|sug'ormoq
+cut|kesmoq
+carry|ko'tarib bormoq
+I can pick tomatoes.|Men pomidor tera olaman.
+
+Boss buyruqlari
+Come here.|Bu yerga keling.
+Wait here.|Shu yerda kuting.
+Stop!|To'xta!
+Be careful.|Ehtiyot bo'ling.
+Hurry up.|Tezroq.
+Do it like this.|Buni mana bunday qiling.
+
+Xavfsizlik
+Wear gloves.|Qo'lqop kiying.
+Wash your hands.|Qo'llaringizni yuving.
+The floor is wet.|Pol ho'l.
+Don't touch that.|Unga tegmang.
+Is it safe?|Bu xavfsizmi?
+This is dangerous.|Bu xavfli.
+
+Ish vaqti
+What time do we start?|Soat nechada boshlaymiz?
+We finish at five.|Biz beshda tugatamiz.
+Break time.|Tanaffus vaqti.
+I need a break.|Menga tanaffus kerak.
+Lunch is at twelve.|Tushlik o'n ikkida.
+I'm ready to work.|Men ishlashga tayyorman.
+
+Sog'liq
+I feel sick.|O'zimni yomon his qilyapman.
+I have a headache.|Boshim og'riyapti.
+I need a doctor.|Menga shifokor kerak.
+I'm tired.|Men charchadim.
+Can I go home?|Uyga ketsam bo'ladimi?
+I'm OK now.|Hozir yaxshiman.
+
+Yo'l va transport
+Where is the bus stop?|Avtobus bekati qayerda?
+How do I get to the farm?|Fermaga qanday boraman?
+Turn left.|Chapga buriling.
+Turn right.|O'ngga buriling.
+Go straight.|To'g'ri yuring.
+Is it far?|Uzoqmi?
+
+Turar joy
+Where do I sleep?|Qayerda yotaman?
+This is my room.|Bu mening xonam.
+Is there Wi-Fi?|Wi-Fi bormi?
+Where is the kitchen?|Oshxona qayerda?
+I need a blanket.|Menga ko'rpa kerak.
+The key, please.|Kalitni bering, iltimos.
+
+Ovqat va do'kon
+I'm hungry.|Men ochman.
+I'd like some water.|Menga suv kerak edi.
+bread and rice|non va guruch
+Where is the shop?|Do'kon qayerda?
+How much is this?|Bu qancha turadi?
+Can I pay by card?|Karta bilan to'lasam bo'ladimi?
+
+Pul va maosh
+How much is the pay?|Maosh qancha?
+Pay per hour.|Soatbay to'lov.
+When do I get paid?|Pulni qachon olaman?
+I need a bank account.|Menga bank hisobi kerak.
+Is overtime paid?|Qo'shimcha ish vaqti to'lanadimi?
+Thank you, that's fine.|Rahmat, bu maqul.
+
+Suhbat 1: o'zingiz haqingizda
+Tell me about yourself.|O'zingiz haqingizda gapiring.
+I'm 19 and I'm from Uzbekistan.|Men 19 yoshdaman, O'zbekistondanman.
+I'm a hard-working person.|Men mehnatsevar odamman.
+I work in my family's business.|Men oilaviy biznesda ishlayman.
+I'm learning English every day.|Men har kuni ingliz tilini o'rganyapman.
+I'm ready to learn.|Men o'rganishga tayyorman.
+
+Suhbat 2: tajriba
+Do you have experience?|Tajribangiz bormi?
+I worked in a fast-food shop.|Men fast-food do'konida ishlaganman.
+I served customers.|Men mijozlarga xizmat qilganman.
+I'm a quick learner.|Men tez o'rganaman.
+I can work with my hands.|Men qo'l mehnatini qila olaman.
+I'm not afraid of hard work.|Men og'ir mehnatdan qo'rqmayman.
+
+Suhbat 3: nega bu ish
+Why do you want this job?|Nega bu ishni xohlaysiz?
+I want to earn money for my family.|Oilam uchun pul topmoqchiman.
+I want to improve my English.|Inglizchamni yaxshilamoqchiman.
+I enjoy working outdoors.|Ochiq havoda ishlashni yoqtiraman.
+I want to learn new skills.|Yangi ko'nikmalarni o'rganmoqchiman.
+I will work hard.|Men qattiq ishlayman.
+
+Suhbat 4: kuchli tomonlar
+I'm always on time.|Men doim vaqtida kelaman.
+I'm honest and reliable.|Men halol va ishonchliman.
+I follow instructions.|Men ko'rsatmalarga amal qilaman.
+I can work in a team.|Men jamoada ishlay olaman.
+I'm strong and healthy.|Men kuchli va sog'lomman.
+I never give up.|Men hech qachon taslim bo'lmayman.
+
+Suhbat 5: sana va hujjat
+When can you start?|Qachon boshlay olasiz?
+I can start next month.|Men kelasi oy boshlay olaman.
+I can work six days a week.|Men haftada olti kun ishlay olaman.
+I can work long hours.|Men uzoq soat ishlay olaman.
+I have my passport.|Pasportim bor.
+Do I need a visa?|Menga viza kerakmi?
+
+Suhbat 6: savol berish
+What will I do every day?|Har kuni nima qilaman?
+How many hours per day?|Kuniga necha soat?
+Is accommodation provided?|Turar joy beriladimi?
+Do you give training?|O'qitish berasizmi?
+How long is the contract?|Shartnoma qancha muddatga?
+Thank you for your time.|Vaqtingiz uchun rahmat.
+
+Hamkasblar bilan
+Can I help you?|Sizga yordam beraymi?
+Can you help me?|Menga yordam bera olasizmi?
+What are you doing?|Nima qilyapsiz?
+Let's go.|Ketdik.
+Good job!|Yaxshi ish!
+See you later.|Keyin ko'rishamiz.
+
+Muammo bo'lganda
+I have a problem.|Menda muammo bor.
+I made a mistake.|Men xato qildim.
+I'm lost.|Men adashdim.
+It's broken.|Bu buzilgan.
+I can't find it.|Men uni topa olmayapman.
+Please help me.|Iltimos, menga yordam bering.
+
+Telefon va xabar
+Hello, this is Ali.|Salom, bu Ali.
+Can I speak to the manager?|Menejer bilan gaplashsam bo'ladimi?
+I'll call you back.|Sizga qayta qo'ng'iroq qilaman.
+I'm on my way.|Yo'ldaman.
+I'll be late.|Kechikaman.
+Can you send a message?|Xabar yubora olasizmi?
+
+To'liq suhbat mashqi
+Good morning. Nice to meet you.|Xayrli tong. Tanishganimdan xursandman.
+My name is Ali. I'm from Uzbekistan.|Ismim Ali. Men O'zbekistondanman.
+I want to work in your greenhouse.|Men sizning issiqxonangizda ishlashni xohlayman.
+I'm hard-working and a quick learner.|Men mehnatsevar va tez o'rganaman.
+I can start next month.|Kelasi oy boshlay olaman.
+Thank you. Have a nice day.|Rahmat. Kuningiz xayrli o'tsin.
+
+Yakuniy takrorlash
+Hello, how are you?|Salom, ahvolingiz qanday?
+Sorry, can you repeat?|Kechirasiz, takrorlay olasizmi?
+I can pick and pack.|Men terib va qadoqlay olaman.
+Where is the bus stop?|Avtobus bekati qayerda?
+I'm ready to work hard.|Men qattiq ishlashga tayyorman.
+Thank you. I'm happy!|Rahmat. Men xursandman!`;
+const D=RAW.trim().split("\n\n").map(b=>{const l=b.split("\n");return{t:l[0],p:l.slice(1).map(x=>x.split("|"))}});
+const $=s=>document.querySelector(s),I=n=>`<svg class="i"><use href="#${n}"/></svg>`;
+const sh=a=>a.map(x=>[Math.random(),x]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);
+let S={done:[],cur:0};try{Object.assign(S,JSON.parse(localStorage.getItem("e30")))}catch(e){}
+const save=()=>{try{localStorage.setItem("e30",JSON.stringify(S))}catch(e){}};
+let AC;function tone(f,d=.12,t=0,ty="sine"){try{AC=AC||new(window.AudioContext||webkitAudioContext)();if(AC.state=="suspended")AC.resume();const o=AC.createOscillator(),g=AC.createGain();o.type=ty;o.frequency.value=f;o.connect(g);g.connect(AC.destination);const n=AC.currentTime+t;g.gain.setValueAtTime(.0001,n);g.gain.exponentialRampToValueAtTime(.1,n+.02);g.gain.exponentialRampToValueAtTime(.0001,n+d);o.start(n);o.stop(n+d+.05)}catch(e){}}
+const snd={tap:()=>tone(520,.08),ok:()=>{tone(660,.12);tone(880,.18,.1)},no:()=>tone(200,.25,0,"triangle"),win:()=>[523,659,784,1047].forEach((f,i)=>tone(f,.25,i*.13))};
+function say(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang="en-GB";u.rate=.85;const v=speechSynthesis.getVoices().find(v=>v.lang.replace("_","-")=="en-GB");if(v)u.voice=v;speechSynthesis.speak(u)}catch(e){}}
+const app=$("#app");let L=null,tm=null;
+const ST=["Takrorlash","Yangi gaplar","Tinglash","Gapirish","Tugatish"],MIN=[5,10,7,8,0];
+function home(){clearInterval(tm);L=null;const n=S.done.length;
+app.innerHTML=`<div class="hd">${I("leaf")}<div><h1>English 30</h1><p>Issiqxona ishi uchun 30 kunlik kurs</p></div></div>
+<div class="bar"><i style="width:${n/30*100}%"></i></div><p>${n} / 30 dars tugadi</p>
+<button class="big" onclick="op(${S.cur})"><span><b>${S.cur+1}-kun · 30 daqiqa</b>${D[S.cur].t}</span>${I("nx")}</button>
+<div class="grid">${D.map((d,i)=>`<button class="d ${S.done.includes(i)?"ok":""} ${i==S.cur?"cur":""}" ${i>S.cur?"disabled":""} onclick="op(${i})">${i>S.cur?I("lock"):S.done.includes(i)?I("ok"):i+1}</button>`).join("")}</div>`}
+async function op(d,s=0){snd.tap();L={d,s,t0:Date.now(),q:0,sc:0,qs:[]};
+try{if(navigator.wakeLock)await navigator.wakeLock.request("screen")}catch(e){}
+const rv=revList();L.qs=sh(D[d].p).slice(0,5);L.rv=rv;
+clearInterval(tm);tm=setInterval(()=>{const e=$("#tm");if(e){const r=Math.max(0,1800-Math.floor((Date.now()-L.t0)/1000));e.textContent=Math.floor(r/60)+":"+String(r%60).padStart(2,"0")}},1000);draw()}
+function revList(){const d=L.d;if(!d)return[];let l=[...D[d-1].p];if(d>1){const old=sh(D.slice(0,d-1).flatMap(x=>x.p)).slice(0,3);l=l.concat(old)}return l}
+const rows=(l,rev)=>l.map(p=>`<div class="r" onclick="fl(this)"><div class="q">${rev?p[1]:p[0]}</div><div class="a ${rev?"hid":""}">${rev?p[0]:p[1]}</div><button class="sp" data-t="${p[0]}" onclick="event.stopPropagation();snd.tap();say(this.dataset.t)">${I("spk")}</button></div>`).join("");
+function fl(r){snd.tap();r.querySelector(".a").classList.remove("hid");say(r.querySelector(".sp").dataset.t)}
+const nx=()=>`<button class="big" onclick="go()"><span>Keyingisi</span>${I("nx")}</button>`;
+function go(){snd.tap();L.s++;L.q=0;L.sc=0;draw();scrollTo(0,0)}
+function draw(){const s=L.s;let h=`<div class="top"><button onclick="home()">${I("home")}</button><span class="t">${L.d+1}-kun</span><span class="pill">${I("clk")}<span id="tm">30:00</span></span></div>
+<div class="dots">${ST.map((_,i)=>`<i class="${i<=s?"on":""}"></i>`).join("")}</div><h2>${ST[s]}${MIN[s]?" · "+MIN[s]+" daq":""}</h2>`;
+if(s==0){h+=L.d?`<p class="hint">O'zbekchasini o'qi, inglizchasini o'zing ayt, keyin bos.</p>`+rows(L.rv,1):`<div class="card"><p>Birinchi kun. Takrorlash yo'q. Yangi gaplarga o't.</p></div>`;h+=nx()}
+else if(s==1){h+=`<p class="hint">Har gapni bos, eshit, 3 marta ovoz chiqarib takrorla.</p>`+rows(D[L.d].p,0)+nx()}
+else if(s==2){h+=quiz()}
+else if(s==3){h+=`<p class="hint">${I("mic")} Uzbekchasini o'qi, inglizchasini baland ovozda ayt. Keyin bos va tekshir.</p>`+rows(D[L.d].p,1)+nx()}
+else{h+=`<div class="card"><h2>Dars tayyor</h2><p>Bugun ${D[L.d].p.length} ta gap o'rgandingiz.</p></div><button class="big" onclick="fin()"><span>Darsni tugatish</span>${I("ok")}</button>`}
+app.innerHTML=h;if(s==2&&L.q<L.qs.length)setTimeout(()=>say(L.qs[L.q][0]),350)}
+function quiz(){const p=L.qs[L.q];if(!p)return `<div class="card"><h2>${L.sc} / ${L.qs.length}</h2><p>To'g'ri javoblar</p></div>`+nx();
+const all=D.flatMap(x=>x.p).filter(x=>x[1]!=p[1]);const o=sh([p,...sh(all).slice(0,2)]);
+return `<p class="hint">Eshiting va to'g'ri ma'noni tanlang (${L.q+1}/${L.qs.length})</p><div class="card"><button class="play" onclick="say(L.qs[L.q][0])">${I("spk")}</button></div>`+o.map(x=>`<button class="o" data-c="${x==p?1:0}" onclick="ans(this)">${x[1]}</button>`).join("")}
+function ans(b){if(L.lock)return;L.lock=1;const c=b.dataset.c=="1";b.classList.add(c?"good":"bad");if(!c)document.querySelector('.o[data-c="1"]').classList.add("good");c?(L.sc++,snd.ok()):snd.no();setTimeout(()=>{L.q++;L.lock=0;draw()},1100)}
+function fin(){const d=L.d;if(!S.done.includes(d))S.done.push(d);S.cur=Math.max(S.cur,Math.min(29,d+1));save();snd.win();clearInterval(tm);
+app.innerHTML=`<div class="win">${I("leaf")}<h1>${d+1}-kun tugadi!</h1><p>${S.done.length} / 30 dars tayyor. Barakalla!</p></div>
+${d<29?`<button class="big" onclick="op(${d+1})"><span>Keyingi kun</span>${I("nx")}</button>`:""}
+<button class="big alt" onclick="op(${d})"><span>Takrorlash</span>${I("rp")}</button>
+<button class="big alt" onclick="home()"><span>Bosh sahifa</span>${I("home")}</button>`}
+(()=>{const c=document.createElement("canvas");c.width=c.height=180;const x=c.getContext("2d");x.fillStyle="#183428";x.fillRect(0,0,180,180);x.fillStyle="#8cc98a";x.beginPath();x.moveTo(90,28);x.bezierCurveTo(152,60,152,122,90,152);x.bezierCurveTo(28,122,28,60,90,28);x.fill();x.strokeStyle="#183428";x.lineWidth=7;x.lineCap="round";x.beginPath();x.moveTo(90,142);x.lineTo(90,70);x.stroke();$("#ic").href=c.toDataURL()})();
+try{speechSynthesis.getVoices()}catch(e){}
+home();
+</script>
+</body>
+</html>
