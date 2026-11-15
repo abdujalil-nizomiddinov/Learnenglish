@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Lug‘at">
+<meta name="theme-color" content="#0a0a0c">
+<title>Lug‘at</title>
+<link rel="apple-touch-icon" id="ati">
+<style>
+:root{--bg:#0a0a0c;--s1:rgba(255,255,255,.05);--bd:rgba(255,255,255,.09);--tx:#f4efe6;--mu:#9a958a;--g1:#ecd49b;--g2:#b8924a;--ok:#5fd3a0;--no:#ff7a8a;--st:env(safe-area-inset-top,0px);--sb:env(safe-area-inset-bottom,0px);--serif:ui-serif,'New York',Georgia,serif}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;overscroll-behavior:none;background:var(--bg);color:var(--tx);font:16px/1.4 -apple-system,'SF Pro Text',system-ui,sans-serif;-webkit-user-select:none;user-select:none;touch-action:manipulation;-webkit-font-smoothing:antialiased}
+body{background:radial-gradient(120% 55% at 50% -8%,#2b2214 0,transparent 62%),var(--bg)}
+input,textarea{-webkit-user-select:text;user-select:text;font:inherit;font-size:16px;color:var(--tx);background:var(--s1);border:1px solid var(--bd);border-radius:14px;padding:13px 14px;width:100%;outline:0;transition:border-color .2s}
+input:focus,textarea:focus{border-color:rgba(236,212,155,.55)}
+textarea{height:170px;resize:none}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;touch-action:manipulation}
+h1{font:600 30px/1.1 var(--serif);letter-spacing:-.3px}
+h2{font:600 22px var(--serif);margin:6px 0 14px}
+small{color:var(--mu);font-size:13px}
+.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.press{transition:transform .12s cubic-bezier(.3,.7,.4,1),filter .12s,background .2s}
+.press:active{transform:scale(.95);filter:brightness(1.18)}
+.view{position:absolute;inset:0;display:none;flex-direction:column;padding:calc(var(--st) + 16px) 20px calc(var(--sb) + 104px);overflow-y:auto;-webkit-overflow-scrolling:touch}
+.view.on{display:flex;animation:vin .26s ease}
+#v-home{overflow:hidden}
+@keyframes vin{from{opacity:0;transform:translateY(8px)}}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;min-height:46px}
+.chips{display:flex;gap:8px}
+.chip{display:flex;align-items:center;gap:6px;padding:7px 12px;border-radius:99px;background:var(--s1);border:1px solid var(--bd);color:var(--g1);font-weight:600}
+.chip .ic{width:18px;height:18px}
+.seg{display:flex;gap:6px;padding:5px;border-radius:18px;background:var(--s1);border:1px solid var(--bd)}
+.seg button{flex:1;height:42px;border-radius:13px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:13px;color:var(--mu);transition:background .2s,color .2s,transform .12s;line-height:1.15}
+.seg button b{font-size:12px;opacity:.75;font-weight:500}
+.seg button.on{background:linear-gradient(135deg,rgba(236,212,155,.2),rgba(184,146,74,.12));color:var(--g1)}
+.seg button:active{transform:scale(.95)}
+.card{position:relative;flex:1;min-height:0;margin:14px 0;border-radius:30px;padding:16px 22px 18px;display:flex;flex-direction:column;background:linear-gradient(160deg,rgba(255,255,255,.075),rgba(255,255,255,.02));border:1px solid var(--bd);box-shadow:0 30px 60px -30px #000,inset 0 1px 0 rgba(255,255,255,.08);transition:border-color .25s,box-shadow .25s}
+.card.peek{border-color:rgba(236,212,155,.5);box-shadow:0 0 44px -14px rgba(236,212,155,.4)}
+.card.ok{border-color:rgba(95,211,160,.55);box-shadow:0 0 50px -12px rgba(95,211,160,.4)}
+.card.no{border-color:rgba(255,122,138,.55);box-shadow:0 0 50px -12px rgba(255,122,138,.4)}
+.ctop{display:flex;justify-content:space-between;align-items:center;height:40px}
+.bdg{font-size:13px;font-weight:600;padding:5px 12px;border-radius:99px;background:var(--s1);border:1px solid var(--bd);color:var(--mu)}
+.bdg.h{color:var(--no)}.bdg.k{color:var(--ok)}.bdg.n{color:var(--g1)}.bdg:empty{display:none}
+.ib{width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:var(--s1);border:1px solid var(--bd);color:var(--g1)}
+#cw{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:16px}
+.en{font:600 clamp(40px,13vw,56px)/1.08 var(--serif);letter-spacing:-.5px;word-break:break-word;padding:0 4px}
+.en.long{font-size:32px}.en.empty{font:500 19px/1.4 -apple-system,system-ui,sans-serif;color:var(--mu);max-width:260px}
+.uz{min-height:92px;opacity:0;transform:translateY(6px);transition:opacity .2s,transform .2s}
+.uz.show{opacity:1;transform:none}
+.uz .m{font-size:27px;font-weight:600;color:var(--g1)}
+.card.ok .m{color:var(--ok)}.card.no .m{color:var(--no)}
+.uz .a{color:var(--tx);opacity:.75;margin-top:4px}
+.uz .nt{font-size:14px;color:var(--mu);font-style:italic;margin-top:6px}
+.meta{display:flex;justify-content:center;gap:14px;font-size:13px;color:var(--mu);min-height:18px}
+.btn{height:56px;border-radius:18px;font-weight:600;font-size:17px;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:1px solid var(--bd);background:var(--s1)}
+.btn.gold{background:linear-gradient(135deg,#f3dda6,#b8924a);color:#1b1407;border:0;box-shadow:0 10px 24px -10px rgba(236,212,155,.55)}
+.btn.out{color:var(--g1);border-color:rgba(236,212,155,.4)}
+.btn.out.dis{opacity:.4;pointer-events:none}
+.btn.ok{background:rgba(95,211,160,.13);border-color:rgba(95,211,160,.4);color:var(--ok)}
+.btn.no{background:rgba(255,122,138,.12);border-color:rgba(255,122,138,.4);color:var(--no)}
+.two{display:flex;gap:10px;margin-top:10px}
+.search{position:relative;margin-bottom:12px}
+.search .ic{position:absolute;left:14px;top:14px;color:var(--mu)}
+.search input{padding-left:44px;height:50px;border-radius:16px}
+.fl{display:flex;gap:8px;margin-bottom:12px;overflow-x:auto;flex:none}
+.fl button{padding:8px 15px;border-radius:99px;background:var(--s1);border:1px solid var(--bd);color:var(--mu);font-size:14px;white-space:nowrap;transition:all .2s}
+.fl button.on{color:var(--g1);border-color:rgba(236,212,155,.5);background:rgba(236,212,155,.1)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;text-align:left;padding:14px 16px;margin-bottom:8px;border-radius:18px;background:var(--s1);border:1px solid var(--bd)}
+.row div{min-width:0;display:flex;flex-direction:column;gap:2px}
+.row b{font-weight:600;font-size:17px}.row span{color:var(--mu);font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dot{width:9px;height:9px;border-radius:50%;flex:none;background:#5a564e}.s-h{background:var(--no)}.s-k{background:var(--ok)}.s-n{background:var(--g1)}
+.emp{color:var(--mu);text-align:center;padding:40px 0}
+.fab{position:fixed;right:20px;bottom:calc(var(--sb) + 92px);width:58px;height:58px;border-radius:20px;display:none;place-items:center;background:linear-gradient(135deg,#f3dda6,#b8924a);color:#1b1407;box-shadow:0 14px 30px -8px rgba(184,146,74,.7);z-index:15}
+.fab.on{display:grid}.fab .ic{width:26px;height:26px;stroke-width:2.2}
+#tabs{position:fixed;left:16px;right:16px;bottom:calc(var(--sb) + 10px);height:68px;border-radius:26px;display:flex;padding:6px;gap:4px;background:rgba(24,22,19,.74);-webkit-backdrop-filter:blur(24px) saturate(1.5);backdrop-filter:blur(24px) saturate(1.5);border:1px solid var(--bd);z-index:20;box-shadow:0 20px 40px -10px #000}
+#tabs button{flex:1;border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:12px;color:var(--mu);transition:background .2s,color .2s,transform .12s}
+#tabs button.on{background:rgba(236,212,155,.12);color:var(--g1)}
+#tabs button:active{transform:scale(.93)}
+.lv{display:flex;gap:18px;align-items:center;padding:20px;border-radius:26px;background:linear-gradient(150deg,rgba(236,212,155,.14),rgba(255,255,255,.02));border:1px solid rgba(236,212,155,.25);margin-bottom:12px}
+.lv .big{font:700 52px/1 var(--serif);background:linear-gradient(135deg,#f6e3b4,#b8924a);-webkit-background-clip:text;background-clip:text;color:transparent;min-width:92px}
+.lv p{font-size:14px;color:var(--mu)}.lv b{color:var(--tx)}
+.bar{height:8px;border-radius:9px;background:var(--s1);margin:10px 0 6px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,var(--g2),var(--g1));transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.tile{padding:16px;border-radius:20px;background:var(--s1);border:1px solid var(--bd)}
+.tile b{display:block;font:600 28px var(--serif)}.tile small{display:block}
+.pan{padding:16px;border-radius:22px;background:var(--s1);border:1px solid var(--bd);margin-bottom:12px}
+.pan h3{font-size:15px;font-weight:600;margin-bottom:12px}
+.acc{display:flex;align-items:center;gap:16px}.acc svg{width:86px;height:86px;flex:none}
+.bars{display:flex;gap:8px;align-items:flex-end}.bc{flex:1;text-align:center}
+.bb{height:90px;display:flex;flex-direction:column-reverse;border-radius:8px;overflow:hidden;background:rgba(255,255,255,.04);margin-bottom:6px}
+.bb i{display:block;background:var(--ok);min-height:0;transition:height .5s}.bb i.r{background:var(--no)}
+.hr{display:flex;justify-content:space-between;padding:9px 0;border-top:1px solid var(--bd)}.hr:first-of-type{border:0}
+.hr span{color:var(--no);font-size:14px}
+.hint{color:var(--mu);font-size:14px;margin-bottom:12px}
+#sheet{position:fixed;left:0;right:0;top:0;height:100%;z-index:50;visibility:hidden;pointer-events:none;transition:visibility 0s .3s}
+#sheet.on{visibility:visible;pointer-events:auto;transition:none}
+#sbk{position:absolute;inset:0;background:rgba(0,0,0,.6);opacity:0;transition:opacity .25s}
+#sheet.on #sbk{opacity:1}
+#sp{position:absolute;left:0;right:0;bottom:0;max-height:92%;overflow-y:auto;padding:10px 20px calc(var(--sb) + 20px);border-radius:28px 28px 0 0;background:#17150f;border:1px solid var(--bd);border-bottom:0;transform:translateY(100%);transition:transform .32s cubic-bezier(.2,.9,.2,1)}
+#sheet.on #sp{transform:none}
+.grab{width:40px;height:5px;border-radius:9px;background:var(--bd);margin:0 auto 12px}
+#sp label{display:block;font-size:13px;color:var(--mu);margin-bottom:12px}#sp label input{margin-top:6px}
+#toast{position:fixed;left:50%;top:calc(var(--st) + 12px);transform:translate(-50%,-80px);padding:11px 20px;border-radius:99px;background:rgba(32,29,23,.95);border:1px solid rgba(236,212,155,.4);color:var(--g1);font-weight:600;font-size:15px;z-index:99;transition:transform .3s cubic-bezier(.2,.9,.2,1);pointer-events:none;white-space:nowrap}
+#toast.on{transform:translate(-50%,0)}
+@media (max-height:700px){.en{font-size:38px}.uz{min-height:76px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="i-cards" viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5M2 12l10 5 10-5"/></symbol>
+<symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18M7 16v-5M12 16V6M17 16v-8"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+<symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-vol" viewBox="0 0 24 24"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></symbol>
+<symbol id="i-fire" viewBox="0 0 24 24"><path d="M12 22c4 0 7-3 7-7 0-3-2-5-3-7-1 2-2 3-3 3 0-3-1-6-4-8 0 4-4 6-4 12 0 4 3 7 7 7z"/></symbol>
+</defs></svg>
+
+<div id="app">
+<section class="view on" id="v-home">
+  <header class="top"><h1>Lug‘at</h1><div class="chips"><span class="chip"><svg class="ic"><use href="#i-fire"/></svg><b id="cs">0</b></span><span class="chip"><svg class="ic"><use href="#i-check"/></svg><b id="ct">0</b></span></div></header>
+  <div class="seg" id="seg">
+    <button data-m="all" class="on">Barchasi<b id="c-all">0</b></button>
+    <button data-m="hard">Qiyin<b id="c-hard">0</b></button>
+    <button data-m="known">Biladigan<b id="c-known">0</b></button>
+  </div>
+  <div class="card" id="card">
+    <div class="ctop"><span class="bdg" id="bdg"></span><button class="ib press" id="bSp" aria-label="Eshitish"><svg class="ic"><use href="#i-vol"/></svg></button></div>
+    <div id="cw"><div class="en" id="en"></div><div class="uz" id="uz"></div></div>
+    <div class="meta" id="meta"></div>
+  </div>
+  <button class="btn out press" id="bShow"><svg class="ic"><use href="#i-eye"/></svg>O‘zbekcha</button>
+  <div class="two"><button class="btn ok press" id="bOk"><svg class="ic"><use href="#i-check"/></svg>Bilaman</button><button class="btn no press" id="bNo"><svg class="ic"><use href="#i-x"/></svg>Bilmayman</button></div>
+</section>
+
+<section class="view" id="v-words">
+  <header class="top"><div><h1>So‘zlar</h1><small id="wc"></small></div></header>
+  <div class="search"><svg class="ic"><use href="#i-search"/></svg><input id="q" placeholder="Qidirish" autocomplete="off" autocapitalize="none" autocorrect="off" enterkeyhint="search"></div>
+  <div class="fl" id="fl"><button data-f="all" class="on">Barchasi</button><button data-f="h">Qiyin</button><button data-f="k">Biladigan</button><button data-f="n">Yangi</button></div>
+  <div id="list"></div>
+</section>
+
+<section class="view" id="v-stats"></section>
+</div>
+
+<button class="fab press" id="fab" aria-label="Qo‘shish"><svg class="ic"><use href="#i-plus"/></svg></button>
+<nav id="tabs">
+  <button data-v="home" class="on"><svg class="ic"><use href="#i-cards"/></svg>Mashq</button>
+  <button data-v="words"><svg class="ic"><use href="#i-list"/></svg>So‘zlar</button>
+  <button data-v="stats"><svg class="ic"><use href="#i-chart"/></svg>Statistika</button>
+</nav>
+<div id="sheet"><div id="sbk"></div><div id="sp"></div></div>
+<div id="toast"></div>
+
+<script>
+const $=s=>document.querySelector(s),K='wt1',ic=n=>`<svg class="ic"><use href="#i-${n}"/></svg>`;
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const nm=s=>String(s).toLowerCase().replace(/[‘’ʻʼ`]/g,"'");
+const day=(o=0)=>new Date(Date.now()-o*864e5).toLocaleDateString('sv');
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const mk=(en,uz,alt='',note='')=>({i:uid(),en,uz,alt,note,n:0,ok:0,bad:0,s:0,d:0,t:0});
+const LV=[[0,'Pre-A1'],[500,'A1'],[1000,'A2'],[2000,'B1'],[4000,'B2'],[8000,'C1'],[16000,'C2']],DN=['Ya','Du','Se','Ch','Pa','Ju','Sh'];
+const SEED=[['good','yaxshi'],['fine','yaxshi','a’lo, jarima','fine weather, a fine'],['house','uy'],['water','suv'],['book','kitob'],['friend','do‘st'],['work','ish','ishlamoq'],['time','vaqt','marta'],['big','katta'],['small','kichik'],['happy','xursand','baxtli'],['beautiful','chiroyli','go‘zal'],['learn','o‘rganmoq'],['understand','tushunmoq'],['remember','eslamoq','yodda saqlamoq'],['important','muhim'],['difficult','qiyin','murakkab'],['easy','oson'],['always','doim','har doim'],['sometimes','ba’zan']];
+
+const BOOK=[["a","bir (artikl)"],["about","haqida","taxminan"],["accident","baxtsiz hodisa","avariya"],["action","harakat"],["active","faol"],["actor","aktyor"],["address","manzil"],["advice","maslahat"],["afraid","qo‘rqqan"],["Africa","Afrika"],["after","keyin","so‘ng"],["afternoon","tushdan keyin"],["again","yana"],["ago","avval","oldin"],["air","havo"],["all","hamma","barcha"],["already","allaqachon"],["also","ham","shuningdek"],["always","doim","har doim"],["am","man (be fe’li)"],["American","amerikalik"],["an","bir (artikl)"],["and","va"],["angry","jahldor","g‘azablangan"],["animal","hayvon"],["another","boshqa","yana bir"],["answer","javob","javob bermoq"],["any","biron","hech qanday"],["anybody","hech kim","kimdir"],["anything","hech narsa","biror narsa"],["appendix","ilova"],["apple","olma"],["appointment","uchrashuv","belgilangan vaqt"],["April","aprel"],["architect","arxitektor"],["are","siz/biz/ular (be fe’li)"],["aren’t","emas (are not)"],["arrange","tashkil qilmoq","tartibga solmoq"],["arrangement","kelishuv","tayyorgarlik"],["arrive","yetib kelmoq"],["art","san’at"],["as","sifatida","kabi"],["ask","so‘ramoq"],["asleep","uxlab qolgan"],["at","da","ga (joyda)"],["aunt","xola","amma"],["Australia","Avstraliya"],["Australian","avstraliyalik"],["away","uzoqda","narida"],["back","orqa","qaytib"],["bad","yomon"],["bag","sumka","xalta"],["ball","to‘p"],["banana","banan"],["bank","bank"],["bath","vanna","cho‘milish"],["be","bo‘lmoq","","am, is, are, was, were, been"],["beautiful","chiroyli","go‘zal"],["because","chunki"],["bed","karavot","to‘shak"],["before","oldin"],["begin","boshlamoq","","began, begun"],["beginning","boshlanish"],["believe","ishonmoq"],["bell","qo‘ng‘iroq"],["belt","kamar"],["between","orasida"],["bicycle","velosiped"],["big","katta"],["bike","velosiped"],["bill","hisob","schyot"],["bird","qush"],["Birmingham","Birmingem (shahar)"],["birthday","tug‘ilgan kun"],["biscuit","pechenye"],["bit","ozgina"],["bite","tishlamoq","","bit, bitten"],["black","qora"],["blow","esmoq","puflamoq","blew, blown"],["blue","ko‘k"],["boil","qaynamoq","qaynatmoq"],["book","kitob"],["bookshop","kitob do‘koni"],["boot","etik"],["born","tug‘ilgan"],["borrow","qarz olmoq"],["box","quti"],["boxing","boks"],["boy","o‘g‘il bola"],["bracket","qavs"],["Brazil","Braziliya"],["bread","non"],["break","sindirmoq","buzmoq","broke, broken"],["breakfast","nonushta"],["bring","olib kelmoq","","brought"],["Bristol","Bristol (shahar)"],["Britain","Buyuk Britaniya"],["British","britaniyalik"],["brother","aka","uka"],["build","qurmoq","","built"],["building","bino"],["bus","avtobus"],["but","lekin"],["butter","sariyog‘"],["buy","sotib olmoq","","bought"],["by","tomonidan","yonida"],["cake","tort","pirog"],["camera","fotoapparat"],["can","qila olmoq"],["Canada","Kanada"],["cannot","qila olmaydi"],["can’t","qila olmaydi"],["capital","poytaxt"],["car","mashina"],["career","kasb yo‘li","martaba"],["carry","ko‘tarmoq","olib yurmoq"],["case","holat","hol"],["castle","qasr"],["cat","mushuk"],["catch","ushlamoq","","caught"],["Celsius","Selsiy"],["centre","markaz"],["chair","stul"],["change","o‘zgartirmoq","o‘zgarish"],["cheap","arzon"],["cheese","pishloq"],["child","bola (farzand)","","children"],["Chinese","xitoylik","xitoycha"],["chocolate","shokolad"],["choose","tanlamoq","","chose, chosen"],["Christmas","Rojdestvo"],["church","cherkov"],["cigarette","sigareta"],["cinema","kinoteatr"],["city","shahar"],["classical","klassik"],["clean","toza","tozalamoq"],["cleaning","tozalash"],["clear","aniq","tiniq"],["clever","aqlli"],["clock","devor soati"],["close","yopmoq","yaqin"],["cloth","mato"],["cloud","bulut"],["club","klub"],["coat","palto"],["coffee","qahva"],["cold","sovuq"],["colour","rang"],["come","kelmoq","","came"],["comfortable","qulay"],["compare","solishtirmoq"],["complete","to‘ldirmoq","tugallamoq"],["concert","konsert"],["continuous","davomli"],["cook","pishirmoq","oshpaz"],["cooking","pishirish"],["correct","to‘g‘ri","tuzatmoq"],["cost","narxi bo‘lmoq","turmoq"],["could","qila olardi"],["couldn’t","qila olmadi"],["country","mamlakat","qishloq"],["course","kurs"],["cream","qaymoq","krem"],["cry","yig‘lamoq"],["cup","piyola","chashka"],["damage","zarar","shikast"],["dance","raqs","raqsga tushmoq"],["dangerous","xavfli"],["dark","qorong‘i"],["daughter","qiz (farzand)"],["day","kun"],["dear","aziz","qadrli"],["December","dekabr"],["decide","qaror qilmoq"],["degree","daraja","gradus"],["dentist","tish shifokori"],["depend","bog‘liq bo‘lmoq"],["detest","jirkanmoq","yomon ko‘rmoq"],["diamond","olmos"],["did","qildi (do ning o‘tgan shakli)"],["didn’t","qilmadi"],["die","o‘lmoq"],["difference","farq"],["different","boshqacha","turli"],["difficult","qiyin"],["dinner","kechki ovqat"],["dirty","iflos"],["do","qilmoq","","does, did, done"],["doctor","shifokor","doktor"],["does","qiladi (do)"],["doesn’t","qilmaydi"],["dog","it"],["don’t","qilmayman","qilmaysiz"],["door","eshik"],["down","pastga"],["dress","ko‘ylak","kiyinmoq"],["drink","ichmoq","ichimlik","drank, drunk"],["drive","haydamoq","","drove, driven"],["dry","quruq"],["each","har bir"],["ear","quloq"],["early","erta"],["earth","yer","zamin"],["easy","oson"],["eat","yemoq","","ate, eaten"],["Edinburgh","Edinburg (shahar)"],["empty","bo‘sh"],["end","oxir","tugamoq"],["engineering","muhandislik"],["English","inglizcha","ingliz tili"],["enjoy","zavqlanmoq","yoqtirmoq"],["eraser","o‘chirg‘ich"],["error","xato"],["etc","va hokazo"],["Ethiopia","Efiopiya"],["European","yevropalik"],["evening","kechqurun"],["ever","hech qachon","qachondir"],["every","har bir"],["everybody","hamma odam"],["everywhere","hamma joyda"],["exam","imtihon"],["examination","imtihon","tekshiruv"],["example","misol"],["excellent","a’lo","ajoyib"],["excuse","kechirmoq","uzr"],["exercise","mashq"],["expensive","qimmat"],["export","eksport qilmoq"],["eye","ko‘z"],["fact","fakt","haqiqat"],["fall","yiqilmoq","kuz","fell, fallen"],["famous","mashhur"],["fantastic","ajoyib"],["fast","tez"],["father","ota"],["favourite","sevimli"],["feel","his qilmoq","","felt"],["feeling","tuyg‘u","his"],["few","bir necha","kam"],["fight","kurashmoq","janjal"],["film","film","kino"],["find","topmoq","","found"],["fine","yaxshi","a’lo"],["finish","tugatmoq"],["Finland","Finlyandiya"],["fire","olov","yong‘in"],["first","birinchi"],["fish","baliq"],["five","besh"],["flower","gul"],["fly","uchmoq","","flew, flown"],["food","ovqat","oziq-ovqat"],["foot","oyoq kafti","","feet"],["football","futbol"],["for","uchun"],["forget","unutmoq","","forgot, forgotten"],["form","shakl"],["four","to‘rt"],["France","Fransiya"],["free","bepul","erkin"],["French","fransuz","fransuzcha"],["Friday","juma"],["friend","do‘st"],["friendly","do‘stona"],["fright","qo‘rquv"],["from","dan"],["full","to‘la"],["fun","zavq","qiziqarli"],["future","kelajak"],["game","o‘yin"],["gap","bo‘shliq"],["garden","bog‘"],["gate","darvoza"],["general","umumiy"],["German","nemis","nemischa"],["Germany","Germaniya"],["get","olmoq","bo‘lmoq","got"],["girl","qiz bola"],["give","bermoq","","gave, given"],["Glasgow","Glazgo (shahar)"],["glass","stakan","shisha"],["go","bormoq","","went, gone"],["golf","golf"],["good","yaxshi"],["goodbye","xayr"],["grass","o‘t","maysa"],["grow","o‘smoq","","grew, grown"],["guitar","gitara"],["hadn’t","…gan emas edi (had not)"],["hair","soch"],["half","yarim"],["hand","qo‘l"],["happen","sodir bo‘lmoq"],["happy","xursand","baxtli"],["hard","qattiq","qiyin"],["has","bor (have)"],["hasn’t","yo‘q (has not)"],["hat","shlyapa"],["hate","yomon ko‘rmoq"],["have","ega bo‘lmoq","","has, had"],["haven’t","yo‘q (have not)"],["he","u (erkak)"],["headache","bosh og‘rig‘i"],["hear","eshitmoq","","heard"],["heavy","og‘ir"],["hello","salom"],["help","yordam","yordam bermoq"],["her","uning (ayol)","uni"],["here","bu yerda","mana"],["here’s","mana (here is)"],["he’ll","u …di (he will)"],["he’s","u … (he is / he has)"],["him","uni","unga"],["his","uning (erkak)"],["hit","urmoq"],["holiday","ta’til","dam olish kuni"],["home","uy","vatan"],["homework","uy vazifasi"],["horror","dahshat"],["horse","ot"],["hospital","kasalxona"],["hot","issiq"],["hotel","mehmonxona"],["hour","soat (vaqt birligi)"],["house","uy"],["housework","uy ishi"],["how","qanday","qanchalik"],["how’s","qanday (how is)"],["hundred","yuz"],["hungry","och"],["hurry","shoshilmoq"],["I","men"],["ice","muz"],["idea","g‘oya"],["if","agar"],["ill","kasal"],["immediately","darhol"],["import","import qilmoq"],["important","muhim"],["in","ichida","da"],["independent","mustaqil"],["India","Hindiston"],["infinitive","infinitiv"],["information","ma’lumot"],["injure","jarohatlamoq"],["instrument","asbob","cholg‘u asbobi"],["intelligent","aqlli"],["intention","niyat"],["interested","qiziqqan"],["interesting","qiziqarli"],["into","ichiga"],["invent","ixtiro qilmoq"],["invite","taklif qilmoq"],["Ireland","Irlandiya"],["irregular","noto‘g‘ri","qoidasiz"],["is","…dir (be fe’li)"],["isn’t","emas"],["it","u (narsa)","bu"],["Italian","italyan","italyancha"],["its","uning (narsa)"],["it’s","bu … (it is / it has)"],["I’d","men … edim (I would / I had)"],["I’ll","men … (I will)"],["I’m","men … man (I am)"],["I’ve","menda … (I have)"],["jacket","kurtka"],["jam","murabbo"],["January","yanvar"],["jeans","jinsi shim"],["job","ish","kasb"],["journey","sayohat","safar"],["joy","quvonch"],["July","iyul"],["key","kalit"],["kind","mehribon","tur"],["kiss","o‘pmoq"],["kitchen","oshxona"],["know","bilmoq","","knew, known"],["language","til"],["last","oxirgi","o‘tgan"],["late","kech"],["later","keyinroq"],["laugh","kulmoq"],["law","qonun"],["lawyer","advokat"],["learn","o‘rganmoq"],["leave","ketmoq","tark etmoq","left"],["leg","oyoq"],["lend","qarz bermoq","","lent"],["letter","xat","harf"],["let’s","keling … (let us)"],["lie","yolg‘on gapirmoq","yotmoq"],["life","hayot"],["like","yoqtirmoq","…dek"],["list","ro‘yxat"],["listen","tinglamoq"],["literature","adabiyot"],["little","kichkina","oz"],["live","yashamoq"],["lock","qulf"],["London","London"],["long","uzun"],["look","qaramoq"],["lose","yo‘qotmoq","","lost"],["lot","ko‘p (a lot)"],["love","sevmoq","sevgi"],["lunch","tushlik"],["lunchtime","tushlik vaqti"],["luxury","hashamat"],["machine","mashina","apparat"],["magazine","jurnal"],["make","yasamoq","qilmoq","made"],["man","erkak","","men"],["many","ko‘p"],["married","uylangan","turmushga chiqqan"],["marry","uylanmoq","turmushga chiqmoq"],["mathematics","matematika"],["may","mumkin"],["me","meni","menga"],["meal","taom","ovqat"],["mean","anglatmoq"],["meat","go‘sht"],["medicine","dori","tibbiyot"],["meet","uchrashmoq","","met"],["meeting","uchrashuv","yig‘ilish"],["Mexico","Meksika"],["middle","o‘rta"],["midnight","yarim tun"],["might","mumkin","ehtimol"],["military","harbiy"],["milk","sut"],["mine","meniki"],["minute","daqiqa"],["modern","zamonaviy"],["mom","oyi"],["moment","lahza"],["Monday","dushanba"],["money","pul"],["month","oy"],["more","ko‘proq"],["morning","ertalab"],["most","eng ko‘p"],["mother","ona"],["motor","motor"],["mountain","tog‘"],["Mr","janob"],["much","ko‘p"],["museum","muzey"],["music","musiqa"],["musical","musiqiy"],["must","kerak","shart"],["mustn’t","mumkin emas"],["my","mening"],["name","ism"],["near","yaqin"],["nearly","deyarli"],["necessary","zarur"],["need","kerak bo‘lmoq","ehtiyoj"],["needn’t","shart emas"],["negative","inkor","salbiy"],["never","hech qachon"],["new","yangi"],["newspaper","gazeta"],["next","keyingi"],["nice","yoqimli","chiroyli"],["night","tun","kecha"],["no","yo‘q"],["nobody","hech kim"],["noise","shovqin"],["nor","na ham"],["not","emas"],["note","yozuv","qayd"],["nothing","hech narsa"],["November","noyabr"],["now","hozir"],["nurse","hamshira"],["October","oktabr"],["of","ning"],["off","o‘chirilgan","uzoqda"],["offer","taklif"],["office","ofis"],["often","tez-tez"],["oh","oh"],["okay","yaxshi","xo‘p"],["old","eski","keksa"],["on","ustida","…da"],["once","bir marta"],["one","bir"],["only","faqat"],["open","ochmoq","ochiq"],["opinion","fikr"],["opposite","qarama-qarshi","ro‘parasida"],["or","yoki"],["orange","apelsin","to‘q sariq"],["order","buyurtma","tartib"],["ought","kerak (ought to)"],["our","bizning"],["out","tashqarida"],["over","ustida","tugagan"],["owe","qarzdor bo‘lmoq"],["own","o‘zining"],["o’clock","soat (…da)"],["page","sahifa"],["paint","bo‘yamoq","bo‘yoq"],["paper","qog‘oz"],["parent","ota yoki ona"],["Paris","Parij"],["park","bog‘","park"],["participle","sifatdosh"],["party","ziyofat","partiya"],["pass","o‘tmoq","uzatmoq"],["passive","majhul nisbat"],["passport","pasport"],["past","o‘tmish","o‘tgan"],["patient","bemor","sabrli"],["pay","to‘lamoq","","paid"],["pen","ruchka"],["pence","pens (pul)"],["perfect","mukammal"],["perhaps","ehtimol"],["period","davr"],["person","odam","shaxs"],["personal","shaxsiy"],["petrol","benzin"],["phone","telefon"],["photograph","fotosurat"],["piano","pianino"],["picture","rasm"],["piece","bo‘lak"],["pipe","quvur","trubka"],["place","joy"],["plan","reja"],["play","o‘ynamoq"],["player","o‘yinchi"],["please","iltimos"],["plural","ko‘plik"],["poem","she’r"],["poet","shoir"],["police","politsiya"],["policeman","politsiyachi"],["polite","xushmuomala"],["politics","siyosat"],["poor","kambag‘al"],["positive","ijobiy","tasdiq"],["possible","mumkin"],["post","pochta"],["postcard","otkritka"],["postman","pochtachi"],["pound","funt"],["prefer","afzal ko‘rmoq"],["present","hozirgi","sovg‘a"],["probably","ehtimol"],["problem","muammo"],["programme","dastur","ko‘rsatuv"],["public","ommaviy"],["push","itarmoq"],["put","qo‘ymoq"],["question","savol"],["quick","tez"],["quickly","tezda"],["quiet","tinch"],["quietly","jimgina"],["racing","poyga"],["radio","radio"],["rain","yomg‘ir"],["read","o‘qimoq"],["ready","tayyor"],["really","haqiqatan"],["red","qizil"],["regular","muntazam"],["remember","eslamoq","yodda saqlamoq"],["restaurant","restoran"],["result","natija"],["rice","guruch"],["rich","boy"],["ride","minmoq","","rode, ridden"],["right","to‘g‘ri","o‘ng"],["ring","jiringlamoq","uzuk","rang, rung"],["river","daryo"],["Rome","Rim"],["roof","tom"],["room","xona"],["round","dumaloq"],["run","yugurmoq","","ran"],["salt","tuz"],["salty","sho‘r"],["same","bir xil"],["sand","qum"],["sandwich","buterbrod"],["Saturday","shanba"],["say","aytmoq","","said"],["school","maktab"],["Scotland","Shotlandiya"],["sea","dengiz"],["seat","o‘rindiq"],["secret","sir"],["secretary","kotib"],["see","ko‘rmoq","","saw, seen"],["sell","sotmoq","","sold"],["send","yubormoq","","sent"],["sentence","gap"],["series","seriya"],["service","xizmat"],["seven","yetti"],["shall","-ay (… -aymi)"],["shave","soqol olmoq"],["she","u (ayol)"],["she’ll","u … (she will)"],["she’s","u … (she is / she has)"],["shine","porlamoq"],["shirt","ko‘ylak"],["shoe","poyabzal"],["shop","do‘kon"],["shopping","xarid"],["short","qisqa"],["should","kerak"],["shouldn’t","kerak emas"],["show","ko‘rsatmoq"],["shower","dush"],["simple","oddiy"],["since","…dan beri"],["sing","kuylamoq","","sang, sung"],["Singapore","Singapur"],["single","yagona","turmushga chiqmagan"],["singular","birlik"],["sister","opa","singil"],["sit","o‘tirmoq","","sat"],["situation","vaziyat"],["six","olti"],["skiing","chang‘i sporti"],["skirt","yubka"],["sky","osmon"],["sleep","uxlamoq","","slept"],["slowly","sekin"],["smell","hid"],["smoke","chekmoq","tutun"],["smoking","chekish"],["snow","qor"],["so","shuning uchun","juda"],["sock","paypoq"],["some","bir oz","ba’zi"],["somebody","kimdir"],["someone","kimdir"],["something","nimadir"],["sometime","qachondir"],["soon","tez orada"],["sorry","kechirasiz","afsus"],["soup","sho‘rva"],["Spain","Ispaniya"],["Spanish","ispan","ispancha"],["speak","gapirmoq","","spoke, spoken"],["speed","tezlik"],["spelling","imlo"],["spend","sarflamoq","","spent"],["sport","sport"],["stamp","marka","shtamp"],["stand","turmoq","","stood"],["star","yulduz"],["start","boshlamoq"],["state","holat","davlat"],["stay","qolmoq"],["steal","o‘g‘irlamoq","","stole, stolen"],["stick","tayoq","yopishtirmoq"],["still","hali ham"],["stop","to‘xtamoq"],["storm","bo‘ron"],["street","ko‘cha"],["strong","kuchli"],["student","talaba"],["study","o‘qimoq","o‘rganmoq"],["stupid","ahmoq"],["subject","fan","mavzu"],["summer","yoz"],["sun","quyosh"],["Sunday","yakshanba"],["supermarket","supermarket"],["sure","ishonchli"],["swim","suzmoq","","swam, swum"],["swimming","suzish"],["table","stol"],["take","olmoq","","took, taken"],["talk","gaplashmoq"],["tall","baland bo‘yli"],["taxi","taksi"],["tea","choy"],["teach","o‘qitmoq","","taught"],["teacher","o‘qituvchi"],["teaching","o‘qitish"],["team","jamoa"],["telephone","telefon"],["television","televizor"],["tell","aytib bermoq","","told"],["ten","o‘n"],["tennis","tennis"],["tense","zamon (grammatika)"],["test","test","sinov"],["than","…dan (qiyoslashda)"],["thank","rahmat aytmoq"],["that","o‘sha","ki"],["that’s","bu … (that is)"],["the","aniq artikl"],["theatre","teatr"],["their","ularning"],["them","ularni","ularga"],["then","keyin","unda"],["there","u yerda"],["there’s","… bor (there is)"],["these","bular"],["they","ular"],["they’re","ular … (they are)"],["they’ve","ularda … (they have)"],["thing","narsa"],["think","o‘ylamoq","","thought"],["thirsty","chanqagan"],["this","bu"],["those","o‘shalar"],["thousand","ming"],["three","uch"],["Thursday","payshanba"],["ticket","chipta"],["timetable","jadval"],["tired","charchagan"],["to","ga","infinitiv qo‘shimchasi"],["toast","tost"],["today","bugun"],["toe","oyoq barmog‘i"],["Tokyo","Tokio"],["tomorrow","ertaga"],["tongue","til (a’zo)"],["tonight","bugun kechqurun"],["too","ham","juda"],["tooth","tish","","teeth"],["toothache","tish og‘rig‘i"],["tour","sayohat"],["town","kichik shahar"],["train","poyezd"],["transistor","tranzistor"],["travel","sayohat qilmoq"],["tree","daraxt"],["trousers","shim"],["true","rost"],["try","urinib ko‘rmoq"],["Tuesday","seshanba"],["turn","burilmoq","navbat"],["TV","televizor"],["twenty","yigirma"],["twice","ikki marta"],["two","ikki"],["umbrella","soyabon"],["under","ostida"],["underline","tagiga chizmoq"],["understand","tushunmoq","","understood"],["unit","dars","bo‘lim"],["university","universitet"],["until","…gacha"],["up","tepaga"],["us","bizni","bizga"],["use","foydalanmoq"],["useful","foydali"],["usually","odatda"],["verb","fe’l"],["verse","bayt"],["very","juda"],["visit","tashrif buyurmoq"],["volleyball","voleybol"],["wait","kutmoq"],["wake","uyg‘onmoq","","woke, woken"],["walk","yurmoq","piyoda yurish"],["want","xohlamoq"],["warm","iliq"],["was","edi","bo‘ldi (be)"],["wash","yuvmoq"],["wasn’t","… emas edi"],["watch","qaramoq","qo‘l soati"],["wave","to‘lqin"],["way","yo‘l","usul"],["we","biz"],["wear","kiymoq","","wore, worn"],["weather","ob-havo"],["Wednesday","chorshanba"],["week","hafta"],["weekend","dam olish kunlari"],["well","yaxshi","quduq"],["were","edi","edik","edilar (be)"],["weren’t","… emas edi (were not)"],["we’ll","biz … (we will)"],["we’re","biz … (we are)"],["we’ve","bizda … (we have)"],["what","nima"],["what’s","… nima (what is)"],["when","qachon"],["where","qayerda"],["where’s","… qayerda (where is)"],["which","qaysi"],["while","…da","paytida"],["who","kim"],["who’s","kim … (who is)"],["why","nima uchun"],["wife","xotin"],["will","-adi","-ajak"],["win","yutmoq","","won"],["window","deraza"],["winter","qish"],["with","bilan"],["woman","ayol","","women"],["wonderful","ajoyib"],["won’t","-maydi (will not)"],["wood","yog‘och"],["word","so‘z"],["work","ish","ishlamoq"],["world","dunyo"],["would","-ar edi"],["write","yozmoq","","wrote, written"],["writer","yozuvchi"],["writing","yozish"],["wrong","noto‘g‘ri"],["year","yil"],["yes","ha"],["yesterday","kecha"],["yet","hali","ammo"],["you","siz","sen"],["young","yosh"],["your","sizning","sening"],["yourself","o‘zingiz"],["you’ll","siz … (you will)"],["you’re","siz … (you are)"],["you’ve","sizda … (you have)"]];
+let S=null;try{S=JSON.parse(localStorage.getItem(K))}catch(e){}
+if(!S||!Array.isArray(S.w))S={w:SEED.map(a=>mk(...a)),log:{}};
+S.log=S.log||{};let W=S.w;
+function addBook(){let c=0;const have=new Set(W.map(w=>nm(w.en)));for(let i=BOOK.length-1;i>=0;i--){const b=BOOK[i],k=nm(b[0]);if(have.has(k))continue;have.add(k);W.push(mk(b[0],b[1],b[2]||'',b[3]||''));c++}return c}
+if(!S.book){addBook();S.book=1}
+const flush=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
+let sv;const save=()=>{clearTimeout(sv);sv=setTimeout(flush,250)};
+addEventListener('pagehide',flush);
+
+/* holat qoidalari: d = qiyinlik (0..10), s = ketma-ket to‘g‘ri javoblar */
+const known=w=>w.d===0&&w.s>=5;
+const stc=w=>w.d>0?'h':w.s>=5?'k':!w.n?'n':'x';
+const BD={h:'Qiyin',k:'Biladi',n:'Yangi',x:'O‘rganilmoqda'};
+
+let mode='all',cur=null,recent=[],busy=false,peek=false,tm;
+const pool=()=>W.filter(w=>mode==='all'||(mode==='hard'?w.d>0:known(w)));
+const wt=w=>mode==='known'?1:w.d>0?1+w.d*1.6:known(w)?.25:w.n?1:2.2;
+function pick(){const p=pool();if(!p.length)return null;let c=p;
+ if(p.length>1){const ex=recent.slice(-Math.min(4,p.length-1));c=p.filter(w=>!ex.includes(w.i))}
+ let sum=0;for(const w of c)sum+=wt(w);let r=Math.random()*sum;
+ for(const w of c){r-=wt(w);if(r<=0)return w}return c[c.length-1]}
+function grade(w,ok,pk){w.n++;w.t=Date.now();const L=S.log[day()]||(S.log[day()]={ok:0,bad:0});
+ if(!ok){w.bad++;w.s=0;w.d=Math.min(10,w.d+2);L.bad++}
+ else if(!pk){w.ok++;w.s++;if(w.d>0)w.d--;L.ok++}
+ save()}
+function streak(){let c=0,o=0;const t=S.log[day()];if(!t||t.ok+t.bad===0)o=1;for(;;o++){const l=S.log[day(o)];if(l&&l.ok+l.bad>0)c++;else break}return c}
+function tp(){$('#cs').textContent=streak();const l=S.log[day()];$('#ct').textContent=l?l.ok+l.bad:0}
+function segs(){let h=0,k=0;for(const w of W){if(w.d>0)h++;else if(w.s>=5)k++}$('#c-all').textContent=W.length;$('#c-hard').textContent=h;$('#c-known').textContent=k}
+
+function show(w){cur=w;peek=false;busy=false;const c=$('#card'),en=$('#en'),u=$('#uz');
+ c.className='card';u.className='uz';u.innerHTML='';$('#bShow').classList.remove('dis');
+ if(!w){en.className='en empty';en.textContent=mode==='all'?'So‘z yo‘q. “So‘zlar” bo‘limidan qo‘shing.':mode==='hard'?'Qiyin so‘zlar yo‘q. Ajoyib!':'Hali yaxshi biladigan so‘z yo‘q.';$('#bdg').textContent='';$('#bdg').className='bdg';$('#meta').innerHTML='';return}
+ recent.push(w.i);if(recent.length>8)recent.shift();
+ en.className='en'+(w.en.length>14?' long':'');en.textContent=w.en;
+ const k=stc(w);$('#bdg').textContent=BD[k];$('#bdg').className='bdg '+k;
+ $('#meta').innerHTML=`<span>Ko‘rilgan ${w.n}</span><span>To‘g‘ri ${w.ok}</span><span>Xato ${w.bad}</span>`;
+ $('#cw').animate([{opacity:0,transform:'translateY(14px) scale(.98)'},{opacity:1,transform:'none'}],{duration:240,easing:'cubic-bezier(.2,.8,.2,1)'})}
+function next(){clearTimeout(tm);show(pick())}
+function reveal(k){const u=$('#uz');u.innerHTML=`<div class="m">${esc(cur.uz)}</div>`+(cur.alt?`<div class="a">${esc(cur.alt)}</div>`:'')+(cur.note?`<div class="nt">${esc(cur.note)}</div>`:'');
+ u.classList.add('show');$('#card').classList.add(k)}
+$('#bShow').onclick=()=>{if(!cur||busy||peek)return;peek=true;reveal('peek');$('#bShow').classList.add('dis')};
+function answer(ok){if(!cur||busy)return;busy=true;grade(cur,ok,peek&&ok);reveal(ok?'ok':'no');tp();segs();tm=setTimeout(next,ok?950:1800)}
+$('#bOk').onclick=()=>answer(true);$('#bNo').onclick=()=>answer(false);
+$('#cw').onclick=()=>{if(busy)next()};
+$('#bSp').onclick=()=>{if(!cur||!window.speechSynthesis)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(cur.en);u.lang='en-US';u.rate=.9;speechSynthesis.speak(u)};
+$('#seg').onclick=e=>{const b=e.target.closest('button');if(!b)return;mode=b.dataset.m;document.querySelectorAll('#seg button').forEach(x=>x.classList.toggle('on',x===b));next()};
+
+/* so‘zlar bo‘limi */
+let q='',f='all',lim=80,qt;
+function rw(){const ql=nm(q.trim());const a=[];
+ for(let i=W.length-1;i>=0;i--){const w=W[i];if(f!=='all'&&stc(w)!==f)continue;if(ql&&!nm(w.en+' '+w.uz+' '+w.alt).includes(ql))continue;a.push(w)}
+ $('#wc').textContent=W.length+' ta so‘z';
+ $('#list').innerHTML=a.length?a.slice(0,lim).map(w=>`<button class="row press" data-i="${w.i}"><div><b>${esc(w.en)}</b><span>${esc(w.uz)}${w.alt?', '+esc(w.alt):''}</span></div><i class="dot s-${stc(w)}"></i></button>`).join('')+(a.length>lim?`<button class="btn press" id="more">Yana ${a.length-lim} ta</button>`:''):'<p class="emp">So‘z topilmadi</p>'}
+$('#q').oninput=e=>{q=e.target.value;lim=80;clearTimeout(qt);qt=setTimeout(rw,80)};
+$('#fl').onclick=e=>{const b=e.target.closest('button');if(!b)return;f=b.dataset.f;lim=80;document.querySelectorAll('#fl button').forEach(x=>x.classList.toggle('on',x===b));rw()};
+$('#list').onclick=e=>{if(e.target.closest('#more')){lim+=150;rw();return}const r=e.target.closest('.row');if(r)form(r.dataset.i)};
+$('#fab').onclick=()=>form();
+
+/* oyna (sheet) */
+const sh=$('#sheet');
+function sheet(h){$('#sp').innerHTML=h;$('#sp').scrollTop=0;sh.classList.add('on')}
+function closeSheet(){sh.classList.remove('on');document.activeElement&&document.activeElement.blur()}
+$('#sbk').onclick=closeSheet;
+if(window.visualViewport){const v=visualViewport,fit=()=>{sh.style.height=v.height+'px';sh.style.top=v.offsetTop+'px'};v.addEventListener('resize',fit);v.addEventListener('scroll',fit)}
+let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),1700)}
+function c2(b,fn,txt='Tasdiqlang'){if(b.dataset.c){delete b.dataset.c;fn();return}const o=b.innerHTML;b.dataset.c=1;b.textContent=txt;setTimeout(()=>{if(b.isConnected&&b.dataset.c){delete b.dataset.c;b.innerHTML=o}},2500)}
+
+function form(id){const w=id?W.find(x=>x.i===id):null,v=w||{en:'',uz:'',alt:'',note:''};
+ sheet(`<div class="grab"></div><h2>${w?'Tahrirlash':'Yangi so‘z'}</h2>
+<label>Inglizcha<input id="fe" value="${esc(v.en)}" autocapitalize="none" autocorrect="off" spellcheck="false"></label>
+<label>O‘zbekcha (asosiy tarjima)<input id="fu" value="${esc(v.uz)}" autocapitalize="none"></label>
+<label>Boshqacha aytilishi (vergul bilan)<input id="fa" value="${esc(v.alt)}" autocapitalize="none"></label>
+<label>Izoh yoki misol<input id="fn" value="${esc(v.note)}"></label>
+<div class="two"><button class="btn gold press" id="fs">Saqlash</button>${w?'<button class="btn no press" id="fd">O‘chirish</button>':'<button class="btn press" id="fb">Ko‘p qo‘shish</button>'}</div>`);
+ $('#fs').onclick=()=>{const en=$('#fe').value.trim(),uz=$('#fu').value.trim();
+  if(!en||!uz)return toast('Inglizcha va o‘zbekchani yozing');
+  if(W.some(x=>x!==w&&nm(x.en)===nm(en)&&nm(x.uz)===nm(uz)))return toast('Bu so‘z allaqachon bor');
+  const alt=$('#fa').value.trim(),note=$('#fn').value.trim();
+  if(w){Object.assign(w,{en,uz,alt,note});closeSheet();toast('Saqlandi')}
+  else{W.push(mk(en,uz,alt,note));toast('Qo‘shildi: '+W.length);['#fe','#fu','#fa','#fn'].forEach(s=>$(s).value='');$('#fe').focus();if(!cur)next()}
+  save();rw();segs()};
+ if(w)$('#fd').onclick=function(){c2(this,()=>{W.splice(W.indexOf(w),1);if(cur===w)next();closeSheet();save();rw();segs();toast('O‘chirildi')})};
+ else $('#fb').onclick=bulk}
+function bulk(){sheet(`<div class="grab"></div><h2>Ko‘p so‘z qo‘shish</h2><p class="hint">Har qatorga bitta so‘z: inglizcha = o‘zbekcha, boshqa ma’nolar. Masalan: good = yaxshi, a’lo</p><textarea id="bt" autocapitalize="none" spellcheck="false"></textarea><button class="btn gold press" id="bs" style="margin-top:12px">Qo‘shish</button>`);
+ $('#bs').onclick=()=>{let c=0;for(const ln of $('#bt').value.split('\n')){const m=ln.trim().match(/^(.+?)\s*(?:=|:|\t|\s[-–—]\s)\s*(.+)$/);if(!m)continue;
+  const en=m[1].trim(),p=m[2].split(','),uz=p.shift().trim(),alt=p.join(',').trim();
+  if(!en||!uz||W.some(x=>nm(x.en)===nm(en)&&nm(x.uz)===nm(uz)))continue;W.push(mk(en,uz,alt));c++}
+  save();closeSheet();rw();segs();if(!cur)next();toast(c+' ta so‘z qo‘shildi')}}
+function backup(){sheet(`<div class="grab"></div><h2>Zaxira nusxa</h2><p class="hint">Matnni nusxalab saqlang. Tiklash uchun uni shu yerga qo‘yib “Tiklash” bosing.</p><textarea id="bk" spellcheck="false"></textarea><div class="two"><button class="btn gold press" id="bc">Nusxalash</button><button class="btn press" id="br">Tiklash</button></div>`);
+ const t=$('#bk');t.value=JSON.stringify(S);
+ $('#bc').onclick=async()=>{try{await navigator.clipboard.writeText(t.value);toast('Nusxalandi')}catch(e){t.select();toast('Matnni qo‘lda nusxalang')}};
+ $('#br').onclick=function(){c2(this,()=>{try{const o=JSON.parse(t.value);if(!Array.isArray(o.w))throw 0;
+  S={w:o.w.filter(x=>x&&x.en&&x.uz).map(x=>({...mk(x.en,x.uz),...x})),log:o.log||{},book:1};W=S.w;cur=null;flush();closeSheet();segs();rs();toast('Tiklandi')}catch(e){toast('Matn noto‘g‘ri')}})}}
+
+/* statistika va daraja: o‘zlashtirilgan lug‘at hajmi bo‘yicha (CEFR) */
+function est(){let e=0;for(const w of W){if(known(w))e++;else if(w.d===0&&w.n)e+=.4*w.ok/((w.ok+w.bad)||1)}return e}
+function rs(){const e=est();let li=0;for(let i=0;i<LV.length;i++)if(e>=LV[i][0])li=i;
+ const lo=LV[li][0],nx=LV[li+1],p=nx?Math.min(100,(e-lo)/(nx[0]-lo)*100):100;
+ let ok=0,bad=0,H=0,Kn=0,N=0;for(const w of W){ok+=w.ok;bad+=w.bad;if(w.d>0)H++;else if(w.s>=5)Kn++;if(!w.n)N++}
+ const acc=ok+bad?Math.round(ok/(ok+bad)*100):0,t=S.log[day()]||{ok:0,bad:0};
+ const ds=[];let mx=1;for(let i=6;i>=0;i--){const l=S.log[day(i)]||{ok:0,bad:0};ds.push([l,new Date(Date.now()-i*864e5).getDay()]);mx=Math.max(mx,l.ok+l.bad)}
+ const bars=ds.map(([l,g])=>`<div class="bc"><div class="bb"><i style="height:${l.ok/mx*100}%"></i><i class="r" style="height:${l.bad/mx*100}%"></i></div><small>${DN[g]}</small></div>`).join('');
+ const hd=W.filter(w=>w.d>0).sort((a,b)=>b.d-a.d||b.bad-a.bad).slice(0,5).map(w=>`<div class="hr"><b>${esc(w.en)}</b><span>${w.bad} marta xato</span></div>`).join('')||'<p class="hint" style="margin:0">Qiyin so‘z yo‘q</p>';
+ $('#v-stats').innerHTML=`<header class="top"><h1>Statistika</h1></header>
+<div class="lv"><div class="big">${LV[li][1]}</div><div style="flex:1"><p>Taxminiy lug‘at: <b>${Math.round(e)}</b> so‘z</p><div class="bar"><i style="width:${p}%"></i></div><p>${nx?`${nx[1]} gacha yana ${Math.max(1,Math.ceil(nx[0]-e))} so‘z`:'Eng yuqori daraja'}</p></div></div>
+<div class="grid"><div class="tile"><b>${W.length}</b><small>Jami so‘z</small></div><div class="tile"><b style="color:var(--ok)">${Kn}</b><small>Yaxshi biladigan</small></div><div class="tile"><b style="color:var(--no)">${H}</b><small>Qiyin</small></div><div class="tile"><b style="color:var(--g1)">${N}</b><small>Yangi</small></div></div>
+<div class="pan"><div class="acc"><svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="34" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="8"/><circle cx="40" cy="40" r="34" fill="none" stroke="#ecd49b" stroke-width="8" stroke-linecap="round" stroke-dasharray="${acc*2.136} 214" transform="rotate(-90 40 40)"/><text x="40" y="46" text-anchor="middle" fill="#f4efe6" font-size="20" font-weight="600">${acc}%</text></svg><div><b>Aniqlik</b><p class="hint" style="margin:4px 0 0">Bugun: ${t.ok} to‘g‘ri, ${t.bad} xato<br>Ketma-ket kun: ${streak()}</p></div></div></div>
+<div class="pan"><h3>Oxirgi 7 kun</h3><div class="bars">${bars}</div></div>
+<div class="pan"><h3>Eng qiyin so‘zlar</h3>${hd}</div>
+<p class="hint">Daraja o‘zlashtirilgan so‘zlar soniga qarab hisoblanadi: A1 taxminan 500, A2 1000, B1 2000, B2 4000, C1 8000, C2 16000 so‘z.</p>
+<div class="two"><button class="btn press" id="bkw">Murphy so‘zlarini qo‘shish</button></div>
+<div class="two"><button class="btn press" id="bkb">Zaxira nusxa</button><button class="btn no press" id="rz">Natijani tozalash</button></div>
+<div class="two" style="margin-bottom:8px"><button class="btn no press" id="da">Hamma so‘zni o‘chirish</button></div>`;
+ $('#bkb').onclick=backup;
+ $('#bkw').onclick=()=>{const c=addBook();save();segs();if(!cur)next();toast(c?c+' ta so‘z qo‘shildi':'Hammasi allaqachon bor')};
+ $('#rz').onclick=function(){c2(this,()=>{W.forEach(w=>{w.n=w.ok=w.bad=w.s=w.d=w.t=0});S.log={};save();rs();segs();tp();toast('Natija tozalandi')})};
+ $('#da').onclick=function(){c2(this,()=>{W=S.w=[];S.log={};cur=null;save();rs();segs();tp();toast('Hammasi o‘chirildi')})}}
+
+/* tablar */
+function go(v){document.querySelectorAll('.view').forEach(e=>e.classList.toggle('on',e.id==='v-'+v));
+ document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
+ $('#fab').classList.toggle('on',v==='words');
+ if(v==='words')rw();if(v==='stats')rs();
+ if(v==='home'){segs();tp();if(!cur||!W.includes(cur))next();else if(!busy&&!peek){$('#en').textContent=cur.en}}}
+$('#tabs').onclick=e=>{const b=e.target.closest('button');if(b)go(b.dataset.v)};
+
+/* ekran o‘chib qolmasligi */
+let wl;async function wake(){try{if('wakeLock' in navigator&&!document.hidden&&(!wl||wl.released))wl=await navigator.wakeLock.request('screen')}catch(e){}}
+document.addEventListener('visibilitychange',()=>{document.hidden?flush():wake()});
+addEventListener('touchend',wake,{passive:true});
+document.addEventListener('touchstart',()=>{},{passive:true});
+document.addEventListener('gesturestart',e=>e.preventDefault());
+
+/* ilova ikonasi */
+(()=>{const c=document.createElement('canvas');c.width=c.height=180;const x=c.getContext('2d'),g=x.createLinearGradient(0,0,180,180);
+ g.addColorStop(0,'#f3dda6');g.addColorStop(1,'#a77d36');x.fillStyle='#0a0a0c';x.fillRect(0,0,180,180);x.fillStyle=g;
+ x.font='700 100px ui-serif,Georgia,serif';x.textAlign='center';x.textBaseline='middle';x.fillText('Aa',90,96);$('#ati').href=c.toDataURL('image/png')})();
+
+segs();tp();next();wake();save();
+</script>
+</body>
+</html>
