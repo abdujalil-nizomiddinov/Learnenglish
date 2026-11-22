@@ -1,0 +1,20 @@
+{
+  "name": "Lug‘at — so‘z yodlash",
+  "short_name": "Lug‘at",
+  "description": "Chet tili so‘zlarini yodlash ilovasi. Internetsiz ishlaydi.",
+  "lang": "uz",
+  "dir": "ltr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "id": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a0a0c",
+  "theme_color": "#0a0a0c",
+  "categories": ["education"],
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
